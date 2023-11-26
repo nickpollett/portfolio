@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nick Pollett Photo</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script src="https://kit.fontawesome.com/b766b74cae.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Montserrat&family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,800;0,900;1,900&display=swap" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHSE30HMHV"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VHSE30HMHV');
+    </script>
+    <script>
+        function submitForm() {
+            document.getElementById("button").disabled = true;
+            document.getElementById("status").innerHTML = 'please wait...';
+
+
+
+            // var formdata = new FormData();
+            // formdata.append( "name", document.getElementById("name").value);
+            // formdata.append( "email", document.getElementById("email").value);
+            // formdata.append( "subject", document.getElementById("subject").value);
+            // formdata.append( "message", document.getElementById("message").value);
+            // var ajax = new XMLHttpRequest();
+            // ajax.open("POST", "mail.php");
+            // ajax.onreadystatechange = function() {
+            //     if(ajax.readyState == 4 && ajax.status == 200) {
+            //         if(ajax.responseText == "success") {
+            //             document.getElementById("contact-form").innerHTML ="<h2>Thanks " + 'document.getElementById("name").value' + ", your message has been sent";
+            //         } else { document.getElementById("status").innerHTML = ajax.responseText;
+            //                     document.getElementById("button").disabled = false;
+
+            //         }
+            //     }
+            // }
+            // ajax.send( formdata);
+        }
+
+        $(function(){
+            $('#button').bind('click', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type:'POST',
+                    url:'mail.php',
+                    data: $('form').serialize(),
+                    success: function() {
+                        alert('contact sent');
+                    }
+                })
+            })
+        })
+
+        //document.getElementById('contact-form').addEventListener('submit', submitForm);
+    </script>
+</head>
+    
+
+<body>
+
+    <header>
+        <div class="container row nav__bar">
+            <a class="logo" href="../index.html">
+                <img src="../CSS/Assetts/logoresize.png" alt="Logo">
+            </a>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item btn"><a href="/Pages/about.html" class="nav__link">About</a></li>
+                    <li class="nav__item btn right"><a href="/Pages/contact.html" class="nav__link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="sub__hero__text sub__hero contact__hero">
+        <h1>Contact</h1>
+        <p>How to reach out</p>
+    </div>
+
+    <div class="contact__container container row">
+        <div class="contact__text">
+            <div class="center">
+                <h3>Reach out over email at nickpollettphoto@gmail.com<br><br>
+                Send a message on social media on <a class="contact__link" href="https://www.facebook.com/nickpollettphoto" target="_blank">Facebook</a> or <a class="contact__link" href="https://www.instagram.com/nickpollett/" target="_blank">Instagram</a></h3>
+            </div>
+        </div>
+        <div class="contact__form">
+            <form id="contact-form" onsubmit="submitForm(); return false" action="POST">
+                <h2 class="form__header">Fill out the form below to send an inquiry</h2>
+                <label>Name:</label>
+                <input type="text" id="name" class="form__field" name="name" placeholder="Your Name" required>
+                <label>Email:</label>
+                <input type="text" id="email" class="form__field" name="email" placeholder="Your Email" type="email" required>
+                <label>Subject:</label>
+                <input type="text" id="subject" class="form__field" name="subject" placeholder="Subject" required>
+                <label>Message:</label>
+                <textarea class="form-control" id="message" rows="10" cols="50" name="message" placeholder="Your message" required></textarea>
+                <input type="submit" id="button" value="Submit Form"  name="submit" class="btn"><span id="status"></span></input>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer__container">
+            <ul>
+                <li>Nick Pollett Photo &nbsp&nbsp&nbsp&nbsp&nbsp Saskatoon, Saskatchewan  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  nickpollettphoto@gmail.com</li>
+                <li class="footerlogo" id="fblogo"><a href="https://www.facebook.com/nickpollettphoto" class="fa fa-facebook fa-xl" target="_blank" rel="noopener noreferrer"></a></li>
+                <li class="footerlogo" id="iglogo"><a href="https://www.instagram.com/nickpollett/" class="fa fa-instagram fa-xl" target="_blank" rel="noopener noreferrer"></a></li>
+             </ul>
+        </div>
+    </footer>
+
+
+</body>
+</html>
