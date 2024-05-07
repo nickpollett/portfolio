@@ -1,0 +1,162 @@
+// Schema file for Prisma ORM
+// Define data models and relationships
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Location {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(120)
+  active Boolean @default(true)
+  notes  String? @db.Text
+
+  Clients Client[]
+}
+
+model Client {
+  id           Int      @id @default(autoincrement())
+  created      DateTime @default(now()) @db.Timestamp()
+  name         String   @db.Text
+  email        String?  @db.VarChar(150)
+  status       String?  @db.VarChar(20)
+  phone_number String?  @db.VarChar(20)
+  address      String?  @db.VarChar(45)
+  notes        String?  @db.Text
+  active       Boolean  @default(true)
+
+  sales_person   User? @relation(fields: [sales_personId], references: [id])
+  sales_personId Int?
+
+  location   Location? @relation(fields: [locationId], references: [id])
+  locationId Int?
+
+  contact Client_Contact[]
+
+  projects Project[]
+}
+
+model Client_Contact {
+  id      Int       @id @default(autoincrement())
+  created DateTime  @default(now()) @db.Timestamp()
+  date    DateTime? @default(now()) @db.Timestamp()
+  type    String?   @db.VarChar(45)
+  notes   String?   @db.Text
+
+  contactor   User? @relation(fields: [contactorId], references: [id])
+  contactorId Int?
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId Int
+}
+
+model Project_Type {
+  id    Int      @id @default(autoincrement())
+  name  String   @db.VarChar(20)
+  cost  Decimal? @db.Decimal()
+  notes String?  @db.Text
+
+  Project Project[]
+}
+
+model Project {
+  id             Int       @id @default(autoincrement())
+  address        String    @db.VarChar(255)
+  created        DateTime  @default(now()) @db.Timestamp()
+  completed_date DateTime? @db.Timestamp()
+  due_date       DateTime? @db.Timestamp()
+  status         String?   @db.VarChar(45)
+  notes          String?   @db.Text
+
+  sales_person   User? @relation(fields: [sales_personId], references: [id])
+  sales_personId Int?
+
+  photographerId Int?                  @unique
+  photographer   Project_Photographer? @relation(fields: [photographerId], references: [id])
+
+  editorId Int?            @unique
+  editor   Project_Editor? @relation(fields: [editorId], references: [id])
+
+  project_type   Project_Type? @relation(fields: [project_typeId], references: [id])
+  project_typeId Int?
+
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId Int?
+
+  invoice Invoice?
+}
+
+model Project_Editor {
+  id             Int       @id @default(autoincrement())
+  created        DateTime  @default(now()) @db.Timestamp()
+  due_date       DateTime? @db.Timestamp()
+  completed_date DateTime? @db.Timestamp()
+  assigned_date  DateTime? @db.Timestamp()
+  notes          String?   @db.Text
+
+  assigned User? @relation(fields: [userId], references: [id])
+  userId   Int?
+
+  project Project?
+}
+
+model Project_Photographer {
+  id             Int       @id @default(autoincrement())
+  created        DateTime  @default(now()) @db.Timestamp()
+  due_date       DateTime? @db.Timestamp()
+  completed_date DateTime? @db.Timestamp()
+  assigned_date  DateTime? @db.Timestamp()
+  notes          String?   @db.Text
+
+  assigned User? @relation(fields: [userId], references: [id])
+  userId   Int?
+
+  project Project?
+}
+
+model Invoice {
+  id      Int      @id @default(autoincrement())
+  pdf     String   @db.VarChar(50)
+  created DateTime @default(now()) @db.Timestamp()
+  amount  Decimal
+  status  String?
+  notes   String?  @db.Text
+
+  projectId Int     @unique
+  project   Project @relation(fields: [projectId], references: [id])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(255)
+  email        String?  @db.VarChar(255)
+  phone_number String?  @db.VarChar(12)
+  photo        String?  @db.VarChar(30)
+  created      DateTime @default(now()) @db.Timestamp()
+  active       Boolean  @default(true)
+  password     String?  @db.VarChar(255)
+  token        String?  @db.VarChar(255)
+
+  user_role   User_Role? @relation(fields: [user_roleId], references: [id])
+  user_roleId Int?
+
+  Photographer  Project_Photographer[]
+  Editor        Project_Editor[]
+  ClientContact Client_Contact[]
+  Project       Project[]
+
+  Clients Client[]
+}
+
+model User_Role {
+  id          Int    @id @default(autoincrement())
+  name        String
+  permissions Json?  @db.Json()
+
+  user User[]
+}

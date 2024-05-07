@@ -1,0 +1,20 @@
+spectaql:
+    logoFile: "./static/logo.png"
+
+introspection:
+    url: http://backend/api/v1
+    headers:
+        Authorization: "Not implemented"
+
+info:
+    title: 370 CRM - GraphQL API
+    description: "Graphql endpoints documentation
+
+        - Authentication not yet implemented"
+    contact:
+        name: Someone Who Knows Something
+
+servers:
+    - url: https://j3vzh3eptc.us-west-2.awsapprunner.com/api/v1
+      description: Production
+      production: true

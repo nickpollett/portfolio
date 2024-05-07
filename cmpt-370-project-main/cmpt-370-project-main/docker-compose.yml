@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: back-end
+      target: "base" 
+    command: 
+      - /bin/sh 
+      - -c 
+      - | 
+        npm install 
+        npm run dev
+    environment:
+      - NODE_ENV=DEV
+      - DATABASE_URL=postgresql://postgres:postgres@db/app
+    ports:
+      - '5050:80'
+    working_dir: /usr/src/app
+    volumes:
+      - ./back-end:/usr/src/app
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: front-end
+    command:
+      - /bin/sh 
+      - -c 
+      - | 
+        npm install 
+        npm run dev -- --host
+    environment:
+      - NODE_ENV=DEV
+      - VITE_API_ENDPOINT=https://localhost:5050/api/v1
+      - VITE_APP_SERVER_URL=https://localhost:5050
+    ports:
+      - '3030:5173'
+    working_dir: /usr/src/app
+    volumes:
+      - ./front-end:/usr/src/app
+    networks:
+      - app-network
+
+  db:
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=app
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - app-network
+
+  # database viewer
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+
+# database volume
+volumes:
+  postgres_data:
+    driver: local
+
+# custom network
+networks:
+  app-network:
+    driver: bridge
+
+
+
+
+
+
