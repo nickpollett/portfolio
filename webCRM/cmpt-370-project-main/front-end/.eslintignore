@@ -1,0 +1,9 @@
+
+# build folder
+/dist/*
+
+# prettier config
+prettier.config.js
+
+# tailwind config
+tailwind.config.js
