@@ -14,9 +14,11 @@ transactions['amount'].describe()
 
 # Create isPayment, isMovement, accountDiff fields
 transactions['isPayment'] = 0
+# Issue here with Pandas 3.0- in some environments the following lines don't work and in some they do depending on the pandas and numpy versions. Should Dockerize
 transactions.loc[(transactions['type'] == 'PAYMENT, DEBIT'), "isPayment"] = 1
 transactions.loc[(transactions['type'] == 'CASH_OUT','TRANSFER'), "movement"] = 1
 transactions['accountDiff'] = abs(transactions['oldbalanceDest'] - transactions['oldbalanceOrg'])
+
 # Create features and label variables
 features = transactions[['amount', 'isPayment', 'isMovement', 'accountDiff']]
 label = transactions['isFraud']
