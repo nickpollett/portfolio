@@ -8,6 +8,8 @@ A collection of some of my projects! In order of how interesting I think they ar
 
 **NPP ->** Nick Pollet Photo, my photo/ video website made using a full production workflow including issues/ branches/ hosting on AWS. Available to view at nickpollettphoto.ca. Tech used: JS, React, Tailwind
 
+**high_injury_network.py ->** Largely an excerize in using Regex to parse data, this processes a collection of reports from Saskatoon Police to determine where the most collisions occur on the road, the resulting roads that together result in 50% of collisions are mapped and visualized. Inspired by research by Dr Wes Marshall.
+
 **webCRM/cmpt-370-project-main ->** Capston group project, a fully featured web CRM for a real estate media company. Tech used: React, PostgreSQL, Prisma, Tailwind
 
 **montecarlo.py ->** A small program that can do monte carlo analysis to find optimal wagers
